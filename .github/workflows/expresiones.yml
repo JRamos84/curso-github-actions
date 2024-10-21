@@ -6,14 +6,19 @@ on:
       edad:
         description: 'Edad'
         required: true
-        type: integer
+        type: string  # Cambiamos el tipo a string
 
 jobs:
   mayor:
-    if: ${{inputs.edad >= 18 }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Correr script
+      - name: Convertir y verificar edad
+        id: check_age
+        run: |
+          if [ ${{ github.event.inputs.edad }} -ge 18 ]; then
+            echo "es_mayor=true" >> $GITHUB_ENV
+          else
+            echo "es_mayor=false" >> $GITHUB_ENV
+      - name: Correr script si es mayor de edad
+        if: ${{ env.es_mayor == 'true' }}
         run: python hola-mundo.py
