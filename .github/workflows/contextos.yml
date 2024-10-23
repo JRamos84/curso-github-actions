@@ -1,0 +1,15 @@
+name: Aprendiendo Contexto github
+run-name: ¡Estoy aprendiendo contexto!
+
+on: [push]
+
+jobs:
+  check-main: 
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            echo "Desplegando en la rama main";
+          else
+            echo "En otra rama";
+          fi
